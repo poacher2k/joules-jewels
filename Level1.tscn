@@ -1,0 +1,204 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Steve.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ASSETS/background/set2_background.png" type="Texture" id=3]
+[ext_resource path="res://ASSETS/background/set2_tiles.png" type="Texture" id=4]
+[ext_resource path="res://world_tileset.tres" type="TileSet" id=5]
+[ext_resource path="res://ASSETS/HUD/coin_gold.png" type="Texture" id=7]
+[ext_resource path="res://ASSETS/fonts/BalsamiqSans-Bold.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://HUD.gd" type="Script" id=9]
+[ext_resource path="res://Joystick/Joystick.tscn" type="PackedScene" id=11]
+[ext_resource path="res://JumpBtn.tscn" type="PackedScene" id=12]
+[ext_resource path="res://ASSETS/fonts/Sniglet-Regular.ttf" type="DynamicFontData" id=15]
+[ext_resource path="res://Checkpoint.tscn" type="PackedScene" id=18]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 0.317647 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="DynamicFont" id=2]
+size = 50
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 70
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 34
+font_data = ExtResource( 15 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 1179.2, 32 )
+
+[node name="Level1" type="Node2D"]
+
+[node name="HUD" type="CanvasLayer" parent="." groups=[
+"HUD",
+]]
+script = ExtResource( 9 )
+
+[node name="Joystick" parent="HUD" instance=ExtResource( 11 )]
+margin_left = 672.0
+margin_top = -320.0
+margin_right = 972.0
+margin_bottom = -20.0
+visibility_mode = 1
+
+[node name="Panel" type="Panel" parent="HUD"]
+margin_left = 32.0
+margin_top = 32.0
+margin_right = 408.0
+margin_bottom = 128.0
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="HUD"]
+margin_left = 48.0
+margin_top = 48.0
+margin_right = 112.0
+margin_bottom = 112.0
+texture = ExtResource( 7 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="x" type="Label" parent="HUD"]
+margin_left = 112.0
+margin_top = 48.0
+margin_right = 144.0
+margin_bottom = 108.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 0.8, 0, 1 )
+text = "x"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Coins" type="Label" parent="HUD"]
+margin_left = 144.0
+margin_top = 32.0
+margin_right = 234.0
+margin_bottom = 132.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 0.8, 0, 1 )
+text = "## / 25"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JumpBtn" parent="HUD" instance=ExtResource( 12 )]
+visibility_mode = 1
+
+[node name="LetterPanel" type="Panel" parent="HUD"]
+margin_left = 32.0
+margin_top = 504.0
+margin_right = 536.0
+margin_bottom = 568.0
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Letters" type="Label" parent="HUD"]
+margin_left = 48.0
+margin_top = 488.0
+margin_right = 467.0
+margin_bottom = 588.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 0.8, 0, 1 )
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 5 )
+format = 1
+tile_data = PoolIntArray( 655357, 0, 0, 655358, 0, 0, 655359, 0, 0, 589824, 0, 0, 589825, 0, 0, 589826, 0, 0, 589827, 0, 0, 589828, 0, 0, 589829, 0, 0, 589830, 0, 0, 589831, 0, 0, 589832, 0, 0, 589833, 0, 0, 589834, 0, 0, 589835, 0, 0, 589836, 0, 0, 589837, 0, 0, 589838, 0, 0, 589839, 0, 0, 720893, 0, 0, 720894, 0, 0, 720895, 0, 0, 655360, 0, 0, 655361, 0, 0, 655362, 0, 0, 655363, 0, 0, 655364, 0, 0, 655365, 0, 0, 655366, 0, 0, 655367, 0, 0, 655368, 0, 0, 655369, 0, 0, 655370, 0, 0, 655371, 0, 0, 655372, 0, 0, 655373, 0, 0, 655374, 0, 0, 655375, 0, 0, 786429, 0, 0, 786430, 0, 0, 786431, 0, 0, 720896, 0, 0, 720897, 0, 0, 720898, 0, 0, 720899, 0, 0, 720900, 0, 0, 720901, 0, 0, 720902, 0, 0, 720903, 0, 0, 720904, 0, 0, 720905, 0, 0, 720906, 0, 0, 720907, 0, 0, 720908, 0, 0, 720909, 0, 0, 720910, 0, 0, 720911, 0, 0, 851965, 0, 0, 851966, 0, 0, 851967, 0, 0, 786432, 0, 0, 786433, 0, 0, 786434, 0, 0, 786435, 0, 0, 786436, 0, 0, 786437, 0, 0, 786438, 0, 0, 786439, 0, 0, 786440, 0, 0, 786441, 0, 0, 786442, 0, 0, 786443, 0, 0, 786444, 0, 0, 786445, 0, 0, 786446, 0, 0, 786447, 0, 0, 917501, 0, 0, 917502, 0, 0, 917503, 0, 0, 851968, 0, 0, 851969, 0, 0, 851970, 0, 0, 851971, 0, 0, 851972, 0, 0, 851973, 0, 0, 851974, 0, 0, 851975, 0, 0, 851976, 0, 0, 851977, 0, 0, 851978, 0, 0, 851979, 0, 0, 851980, 0, 0, 851981, 0, 0, 851982, 0, 0, 851983, 0, 0, 983037, 0, 0, 983038, 0, 0, 983039, 0, 0, 917504, 0, 0, 917505, 0, 0, 917506, 0, 0, 917507, 0, 0, 917508, 0, 0, 917509, 0, 0, 917510, 0, 0, 917511, 0, 0, 917512, 0, 0, 917513, 0, 0, 917514, 0, 0, 917515, 0, 0, 917516, 0, 0, 917517, 0, 0, 917518, 0, 0, 917519, 0, 0, 1048573, 0, 0, 1048574, 0, 0, 1048575, 0, 0, 983040, 0, 0, 983041, 0, 0, 983042, 0, 0, 983043, 0, 0, 983044, 0, 0, 983045, 0, 0, 983046, 0, 0, 983047, 0, 0, 983048, 0, 0, 983049, 0, 0, 983050, 0, 0, 983051, 0, 0, 983052, 0, 0, 983053, 0, 0, 983054, 0, 0, 983055, 0, 0 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Purple Sky" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 1280, 960 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Purple Sky"]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
+centered = false
+
+[node name="Far Blocks" type="ParallaxLayer" parent="ParallaxBackground"]
+modulate = Color( 0.533333, 1, 0.521569, 0.490196 )
+position = Vector2( 0, -500 )
+motion_scale = Vector2( 0.25, 0.25 )
+motion_mirroring = Vector2( 2560, 1920 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Far Blocks"]
+scale = Vector2( 4, 4 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Middle Blocks" type="ParallaxLayer" parent="ParallaxBackground"]
+modulate = Color( 0.929412, 0.847059, 0.847059, 0.631373 )
+motion_scale = Vector2( 0.4, 0.4 )
+motion_mirroring = Vector2( 1600, 1200 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Middle Blocks"]
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Nearby Blocks" type="ParallaxLayer" parent="ParallaxBackground"]
+modulate = Color( 1, 1, 1, 0.647059 )
+motion_scale = Vector2( 0.7, 0.7 )
+motion_mirroring = Vector2( 1120, 840 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Nearby Blocks"]
+scale = Vector2( 1.75, 1.75 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Fallzone" type="Area2D" parent="."]
+position = Vector2( 1328, 1344 )
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fallzone"]
+position = Vector2( 2664, 576 )
+scale = Vector2( 5, 1 )
+shape = SubResource( 5 )
+
+[node name="Checkpoints" type="Node2D" parent="."]
+
+[node name="Checkpoint" parent="Checkpoints" instance=ExtResource( 18 )]
+position = Vector2( 584, -264 )
+
+[node name="Steve" parent="." instance=ExtResource( 2 )]
+position = Vector2( 513.833, 303.404 )
+collision_mask = 30
+joystickPath = NodePath("../HUD/Joystick")
+jumpBtnPath = NodePath("../HUD/JumpBtn")
+
+[node name="Camera2D" type="Camera2D" parent="Steve"]
+current = true
+limit_left = -700
+limit_bottom = 1792
+limit_smoothed = true
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+smoothing_enabled = true
+drag_margin_left = 0.3
+drag_margin_right = 0.3
+drag_margin_bottom = 0.5
+editor_draw_limits = true
+
+[connection signal="body_entered" from="Fallzone" to="Steve" method="_on_Fallzone_body_entered"]

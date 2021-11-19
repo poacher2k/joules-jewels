@@ -1,0 +1,16 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=2]
+
+[ext_resource path="res://ASSETS/coin/gold_6.png" type="Texture" id=1]
+[ext_resource path="res://ASSETS/coin/gold_3.png" type="Texture" id=2]
+[ext_resource path="res://ASSETS/coin/gold_2.png" type="Texture" id=3]
+[ext_resource path="res://ASSETS/coin/gold_1.png" type="Texture" id=4]
+[ext_resource path="res://ASSETS/coin/gold_5.png" type="Texture" id=5]
+[ext_resource path="res://ASSETS/coin/gold_4.png" type="Texture" id=6]
+
+[resource]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 3 ), ExtResource( 2 ), ExtResource( 6 ), ExtResource( 5 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "spin",
+"speed": 10.0
+} ]
