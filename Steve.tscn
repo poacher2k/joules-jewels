@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://steve_spriteframes.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Steve.gd" type="Script" id=2]
-[ext_resource path="res://Letter.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 26.8234
@@ -15,22 +14,25 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
+SPEED = Vector2( 500, 1000 )
+COYOTE_TIME_MS = 50.0
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -48 )
 frames = ExtResource( 1 )
 animation = "idle"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 14.753 )
+position = Vector2( 0, -33.247 )
 shape = SubResource( 1 )
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
-[node name="Letter" parent="." instance=ExtResource( 3 )]
-position = Vector2( 8.88889, -44.4444 )
-collision_layer = 0
-collision_mask = 0
+[node name="PlatformDetector" type="RayCast2D" parent="."]
+position = Vector2( 0, -5 )
+enabled = true
+cast_to = Vector2( 0, 6 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

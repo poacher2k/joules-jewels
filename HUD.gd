@@ -3,7 +3,7 @@ extends CanvasLayer
 func update_coins_text():
 	var coins = Global.collected_coins.size()
 	var coinPrefix = "0" if coins < 10 else ""
-	$Coins.text = coinPrefix + String(coins) + " / 25"
+	$Coins.text = coinPrefix + String(coins) + ""
 
 
 func _ready():
