@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://Steve.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Pickup.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Joules.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ASSETS/background/set2_background.png" type="Texture" id=3]
 [ext_resource path="res://ASSETS/background/set2_tiles.png" type="Texture" id=4]
 [ext_resource path="res://world_tileset.tres" type="TileSet" id=5]
@@ -179,13 +180,13 @@ shape = SubResource( 5 )
 [node name="Checkpoint" parent="Checkpoints" instance=ExtResource( 18 )]
 position = Vector2( 584, -264 )
 
-[node name="Steve" parent="." instance=ExtResource( 2 )]
+[node name="Joules" parent="." instance=ExtResource( 2 )]
 position = Vector2( 513.833, 303.404 )
 collision_mask = 30
 joystickPath = NodePath("../HUD/Joystick")
 jumpBtnPath = NodePath("../HUD/JumpBtn")
 
-[node name="Camera2D" type="Camera2D" parent="Steve"]
+[node name="Camera2D" type="Camera2D" parent="Joules"]
 current = true
 limit_left = -700
 limit_bottom = 1792
@@ -197,4 +198,12 @@ drag_margin_right = 0.3
 drag_margin_bottom = 0.5
 editor_draw_limits = true
 
-[connection signal="body_entered" from="Fallzone" to="Steve" method="_on_Fallzone_body_entered"]
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="Pickup" parent="Pickups" instance=ExtResource( 1 )]
+position = Vector2( 1261.34, 92.4434 )
+
+[node name="Pickup2" parent="Pickups" instance=ExtResource( 1 )]
+position = Vector2( 1689.66, -89.3619 )
+
+[connection signal="body_entered" from="Fallzone" to="Joules" method="_on_Fallzone_body_entered"]

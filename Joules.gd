@@ -1,9 +1,9 @@
 extends KinematicBody2D
 
-export(String) var action_suffix = ""
-
 export var SPEED = Vector2(200.0, 1000.0)
-const GRAVITY = 35
+export var MAX_SPEED = 1000
+export var WALK_ANIMATION_THRESHOLD = 50
+export var GRAVITY = 35
 const JUMP_FORCE = -1100
 const FLOOR_DETECT_DISTANCE = 20.0
 const FLOOR_NORMAL = Vector2.UP
@@ -50,18 +50,29 @@ func _physics_process(_delta):
 #		$Sprite.play("air")
 
 	velocity.y = velocity.y + GRAVITY * gravity_direction
-	
+
 	# Play jump sound
 	#if Input.is_action_just_pressed("jump" + action_suffix) and is_on_floor():
 	#	sound_jump.play()
-	
+
 	if is_on_floor():
 		last_touched_ground = OS.get_system_time_msecs()
 
 	var direction = get_direction()
 
-	var is_jump_interrupted = Input.is_action_just_released("jump" + action_suffix) and velocity.y < 0.0
+	if direction.x != 0:
+		$Sprite.flip_h = direction.x == -1
+
+	var is_jump_interrupted = Input.is_action_just_released("jump") and velocity.y < 0.0
 	velocity = calculate_move_velocity(velocity, direction, SPEED, is_jump_interrupted)
+
+	if is_on_floor():
+		if abs(velocity.x) >= WALK_ANIMATION_THRESHOLD:
+			$Sprite.play("walk")
+		else:
+			$Sprite.play("idle")
+	else:
+		$Sprite.play("air")
 
 	var snap_vector = Vector2.ZERO
 	if direction.y == 0.0:
@@ -84,7 +95,9 @@ func calculate_move_velocity(
 		is_jump_interrupted
 	):
 	var velocity = linear_velocity
-	velocity.x = speed.x * direction.x
+	velocity.x += speed.x * direction.x
+	velocity.x = clamp(velocity.x, -MAX_SPEED, MAX_SPEED)
+	velocity.x = lerp(velocity.x, 0, 0.1)
 	if direction.y != 0.0:
 		velocity.y = speed.y * direction.y
 	if is_jump_interrupted:
@@ -95,10 +108,10 @@ func calculate_move_velocity(
 
 func get_direction():
 	var on_floor_or_coyote = is_on_floor() or (OS.get_system_time_msecs() - last_touched_ground) <= COYOTE_TIME_MS
-	
+
 	return Vector2(
-		Input.get_action_strength("move_right" + action_suffix) - Input.get_action_strength("move_left" + action_suffix),
-		-1 if on_floor_or_coyote and Input.is_action_just_pressed("jump" + action_suffix) else 0
+		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
+		-1 if on_floor_or_coyote and Input.is_action_just_pressed("jump") else 0
 	)
 
 
