@@ -14,11 +14,10 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
-SPEED = Vector2( 100, 1000 )
-COYOTE_TIME_MS = 50.0
+SPEED = Vector2( 50, 800 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -48 )
+position = Vector2( 244.444, -315.556 )
 frames = ExtResource( 1 )
 animation = "idle"
 playing = true
