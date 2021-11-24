@@ -8,7 +8,7 @@ radius = 26.8234
 height = 12.5472
 
 [node name="Joules" type="KinematicBody2D"]
-scale = Vector2( 0.9, 0.9 )
+scale = Vector2( 2, 2 )
 collision_mask = 0
 script = ExtResource( 2 )
 __meta__ = {
@@ -17,7 +17,8 @@ __meta__ = {
 SPEED = Vector2( 50, 800 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
-position = Vector2( 244.444, -315.556 )
+position = Vector2( -0.191071, -37.7178 )
+scale = Vector2( 0.0813366, 0.0813366 )
 frames = ExtResource( 1 )
 animation = "idle"
 playing = true

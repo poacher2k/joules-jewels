@@ -35,19 +35,6 @@ func _physics_process(_delta):
 #		velocity.x = joystick.output.x * SPEED
 #		$Sprite.play("walk")
 #		$Sprite.flip_h = true if velocity.x < 1 else false
-#	elif Input.is_action_pressed("right"):
-#		velocity.x = SPEED
-#		$Sprite.play("walk")
-#		$Sprite.flip_h = false
-#	elif Input.is_action_pressed("left"):
-#		velocity.x = -SPEED
-#		$Sprite.flip_h = true
-#		$Sprite.play("walk")
-#	else:
-#		$Sprite.play("idle")
-#
-#	if not is_on_floor():
-#		$Sprite.play("air")
 
 	velocity.y = velocity.y + GRAVITY * gravity_direction
 
@@ -68,11 +55,13 @@ func _physics_process(_delta):
 
 	if is_on_floor():
 		if abs(velocity.x) >= WALK_ANIMATION_THRESHOLD:
-			$Sprite.play("walk")
+			pass
+#			$Sprite.play("walk")
 		else:
 			$Sprite.play("idle")
 	else:
-		$Sprite.play("air")
+		pass
+#		$Sprite.play("air")
 
 	var snap_vector = Vector2.ZERO
 	if direction.y == 0.0:
@@ -81,6 +70,11 @@ func _physics_process(_delta):
 	velocity = move_and_slide_with_snap(
 		velocity, snap_vector, FLOOR_NORMAL, not is_on_platform, 4, 0.9, false
 	)
+
+	for i in get_slide_count():
+		var collision = get_slide_collision(i)
+		if collision.collider.has_method("can_pickup") and collision.collider.can_pickup():
+			self.add_child(collision.collider)
 
 #	velocity = move_and_slide(velocity, Vector2.UP * gravity_direction)
 #

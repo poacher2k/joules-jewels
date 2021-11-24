@@ -11,9 +11,19 @@
 
 [resource]
 animations = [ {
-"frames": [ ExtResource( 8 ), ExtResource( 4 ) ],
+"frames": [  ],
 "loop": true,
-"name": "idle",
+"name": "hurt",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "air",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "walk",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 2 ), ExtResource( 7 ) ],
@@ -26,18 +36,8 @@ animations = [ {
 "name": "crouch",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 5 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 4 ) ],
 "loop": true,
-"name": "air",
+"name": "idle",
 "speed": 5.0
-}, {
-"frames": [ ExtResource( 3 ), ExtResource( 6 ) ],
-"loop": true,
-"name": "walk",
-"speed": 5.0
-}, {
-"frames": [  ],
-"loop": true,
-"name": "hurt",
-"speed": 10.0
 } ]
