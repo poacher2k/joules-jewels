@@ -14,7 +14,8 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
-SPEED = Vector2( 50, 800 )
+SPEED = Vector2( 100, 1000 )
+MIN_THROW_PICKUP_DELAY = 500.0
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 position = Vector2( -0.191071, -37.7178 )
@@ -34,5 +35,8 @@ one_shot = true
 position = Vector2( 0, -5 )
 enabled = true
 cast_to = Vector2( 0, 6 )
+
+[node name="PickupHold" type="Node2D" parent="."]
+position = Vector2( 0, -76 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

@@ -4,6 +4,7 @@ export var SPEED = Vector2(200.0, 1000.0)
 export var MAX_SPEED = 1000
 export var WALK_ANIMATION_THRESHOLD = 50
 export var GRAVITY = 35
+export var THROW_FORCE = 1000
 const JUMP_FORCE = -1100
 const FLOOR_DETECT_DISTANCE = 20.0
 const FLOOR_NORMAL = Vector2.UP
@@ -14,14 +15,26 @@ onready var joystick: Joystick = get_node(joystickPath)
 export (NodePath) var jumpBtnPath
 onready var jumpBtn: JumpBtnJoystick = get_node(jumpBtnPath)
 
-onready var platform_detector = $PlatformDetector
+export (NodePath) var pickupsParentPath
+onready var pickupsParent = get_node(pickupsParentPath)
 
-export(float) var COYOTE_TIME_MS = 100
+onready var platform_detector = $PlatformDetector
+onready var pickup_hold = $PickupHold
+
+export(float) var COYOTE_TIME_MS = 50
 var velocity = Vector2(0, 0)
 var gravity_direction = 1
 var is_alive = true
 
 var last_touched_ground = 0
+var last_thrown = 0
+
+export(float) var MIN_THROW_PICKUP_DELAY = 200
+
+var current_pickup_type = null
+var current_pickup_instance = null
+
+const PICKUP_SCENE = preload("res://Pickup.tscn")
 
 func _ready():
 	jumpBtn.connect("touch_started", self, "jump")
@@ -41,9 +54,9 @@ func _physics_process(_delta):
 	# Play jump sound
 	#if Input.is_action_just_pressed("jump" + action_suffix) and is_on_floor():
 	#	sound_jump.play()
-
+	var now = OS.get_system_time_msecs()
 	if is_on_floor():
-		last_touched_ground = OS.get_system_time_msecs()
+		last_touched_ground = now
 
 	var direction = get_direction()
 
@@ -71,14 +84,44 @@ func _physics_process(_delta):
 		velocity, snap_vector, FLOOR_NORMAL, not is_on_platform, 4, 0.9, false
 	)
 
-	for i in get_slide_count():
-		var collision = get_slide_collision(i)
-		if collision.collider.has_method("can_pickup") and collision.collider.can_pickup():
-			self.add_child(collision.collider)
+	if current_pickup_instance:
+		if Input.is_action_just_pressed("fire"):
+			throw()
+			last_thrown = now
+	elif now - last_thrown >= MIN_THROW_PICKUP_DELAY:
+		for i in get_slide_count():
+			var collision = get_slide_collision(i)
+			var collisionCollider = collision.collider
+			if collisionCollider.has_method("can_pickup") and collisionCollider.can_pickup():
+				print("PICKING UP!!!!!")
+				collisionCollider.is_picked_up = true
+				collisionCollider.call_deferred("queue_free")
+				pickup(PICKUP_SCENE)
+	#			collisionCollider.collisionShape.set_deferred("disabled", true)
 
 #	velocity = move_and_slide(velocity, Vector2.UP * gravity_direction)
 #
 #	velocity.x = lerp(velocity.x, 0, 0.1)
+
+func pickup(type: PackedScene):
+	var newChild = type.instance()
+	newChild.pickup()
+	pickup_hold.call_deferred("add_child", newChild)
+	current_pickup_type = type
+	current_pickup_instance = newChild
+
+func throw():
+	print("Throwing!")
+	var direction = get_direction()
+	var newChild = current_pickup_type.instance()
+	newChild.position = current_pickup_instance.global_position
+	newChild.velocity = velocity
+	newChild.velocity.x = (abs(velocity.x) + THROW_FORCE) * direction.x
+#	newChild.throw(velocity, direction)
+	pickupsParent.call_deferred("add_child", newChild)
+	current_pickup_instance.call_deferred("queue_free")
+	current_pickup_type = null
+	current_pickup_instance = null
 
 # This function calculates a new velocity whenever you need it.
 # It allows you to interrupt jumps.
@@ -124,20 +167,23 @@ func _on_Fallzone_body_entered(_body):
 
 func bounce(bounciness):
 	velocity.y += bounciness
+	print("Bounce!")
 
 
 func force_bounce(bounciness):
 	velocity.y = bounciness
+	print("Force Bounce!")
 
 
 func side_force_bounce(bounciness):
 	velocity.x = bounciness
+	print("Side Force Bounce!")
 
 
 func take_damage(enemyPosition: float):
+	print("Take damage!")
 	if not is_alive:
 		return
-
 	is_alive = false
 	set_modulate(Color(1, 0.3, 0.3, 0.3))
 	var direction = -1 if enemyPosition > position.x else 1
