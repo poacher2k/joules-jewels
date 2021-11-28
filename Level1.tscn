@@ -184,7 +184,6 @@ position = Vector2( 584, -264 )
 
 [node name="Joules" parent="." instance=ExtResource( 2 )]
 position = Vector2( 1174, 551 )
-collision_mask = 30
 joystickPath = NodePath("../HUD/Joystick")
 jumpBtnPath = NodePath("../HUD/JumpBtn")
 pickupsParentPath = NodePath("../Pickups")

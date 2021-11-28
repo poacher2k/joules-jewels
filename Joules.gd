@@ -37,6 +37,10 @@ var current_pickup_instance = null
 
 const PICKUP_SCENE = preload("res://Pickup.tscn")
 
+onready var pickup_types = {
+	"pickup": PICKUP_SCENE
+}
+
 func _ready():
 	jumpBtn.connect("touch_started", self, "jump")
 
@@ -77,14 +81,6 @@ func _physics_process(_delta):
 	if current_pickup_instance:
 		if Input.is_action_just_pressed("fire"):
 			throw()
-	else:
-		for i in get_slide_count():
-			var collision = get_slide_collision(i)
-			var collisionCollider = collision.collider
-			if not current_pickup_instance and collisionCollider.has_method("can_pickup") and collisionCollider.can_pickup():
-				collisionCollider.is_picked_up = true
-				collisionCollider.call_deferred("queue_free")
-				pickup(PICKUP_SCENE)
 
 	var snap_vector = Vector2.ZERO
 	if direction.y == 0.0:
@@ -105,7 +101,15 @@ func _physics_process(_delta):
 #
 #	velocity.x = lerp(velocity.x, 0, 0.1)
 
-func pickup(type: PackedScene):
+func pickup(collisionBody):
+	if current_pickup_instance:
+		return
+	
+	collisionBody.is_picked_up = true
+	collisionBody.call_deferred("queue_free")
+	
+	var type = pickup_types.get(collisionBody.pickup_type)
+	
 	var newChild = type.instance()
 	newChild.pickup()
 	pickup_hold.call_deferred("add_child", newChild)

@@ -6,11 +6,12 @@ export var WALL_VELOCITY_BOUNCE_STEAL = 1000
 
 onready var collisionShape = $CollisionShape2D
 onready var throwToPickupTimer = $ThrowToPickupTimer
+onready var pickupArea = $PickupArea
 
 var is_picked_up = false
 var velocity = Vector2.ZERO
 var prev_velocity = Vector2.ZERO
-
+var pickup_type = "pickup"
 
 func _physics_process(delta):
 	if is_picked_up:
@@ -35,13 +36,16 @@ func pickup():
 
 func throw(initial_velocity):
 	velocity = initial_velocity
-	set_collision_layer_bit(4, false)
-	set_collision_mask_bit(0, false)
+	$PickupArea.set_collision_mask_bit(0, false)
 	$ThrowToPickupTimer.autostart = true
 
 func can_pickup():
 	return not is_picked_up
 
 func _on_ThrowToPickupTimer_timeout():
-	set_collision_layer_bit(4, true)
-	set_collision_mask_bit(0, true)
+	$PickupArea.set_collision_mask_bit(0, true)
+
+
+func _on_PickupArea_body_entered(body):
+	if can_pickup() and body.name == "Joules":
+		body.pickup(self)

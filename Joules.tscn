@@ -9,7 +9,7 @@ height = 12.5472
 
 [node name="Joules" type="KinematicBody2D"]
 scale = Vector2( 2, 2 )
-collision_mask = 0
+collision_mask = 14
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
@@ -22,6 +22,7 @@ position = Vector2( -0.191071, -37.7178 )
 scale = Vector2( 0.0813366, 0.0813366 )
 frames = ExtResource( 1 )
 animation = "idle"
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -40,6 +41,6 @@ cast_to = Vector2( 0, 6 )
 position = Vector2( 0, -64 )
 
 [node name="ThrowPos" type="Node2D" parent="."]
-position = Vector2( 24, -64 )
+position = Vector2( 16, -52 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
