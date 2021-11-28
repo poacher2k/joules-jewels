@@ -3,19 +3,26 @@ extends KinematicBody2D
 export var GRAVITY = 35
 export var FRICTION = 0.08
 export var WALL_VELOCITY_BOUNCE_STEAL = 1000
+export var MIN_VELOCITY_FOR_DAMAGE = 250
 
 onready var collisionShape = $CollisionShape2D
 onready var throwToPickupTimer = $ThrowToPickupTimer
 onready var pickupArea = $PickupArea
+onready var MIN_VELOCITY_FOR_DAMAGE_SQ = MIN_VELOCITY_FOR_DAMAGE * MIN_VELOCITY_FOR_DAMAGE
 
 var is_picked_up = false
 var velocity = Vector2.ZERO
 var prev_velocity = Vector2.ZERO
 var pickup_type = "pickup"
+var joules = null
 
 func _physics_process(delta):
 	if is_picked_up:
 		return
+		
+	if joules != null:
+		joules.pickup(self)
+		
 	prev_velocity = velocity
 	
 	velocity.y = velocity.y + GRAVITY
@@ -48,4 +55,11 @@ func _on_ThrowToPickupTimer_timeout():
 
 func _on_PickupArea_body_entered(body):
 	if can_pickup() and body.name == "Joules":
-		body.pickup(self)
+		joules = body
+		joules.pickup(self)
+	elif body.is_in_group("enemies") and velocity.length_squared() >= MIN_VELOCITY_FOR_DAMAGE_SQ:
+		body.take_damage()
+
+func _on_PickupArea_body_exited(body):
+	if body.name == "Joules":
+		joules = null

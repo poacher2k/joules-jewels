@@ -17,6 +17,8 @@ export var does_damage = true
 
 var velocity = Vector2(0, 0)
 var is_alive = true
+var is_flipped = false
+
 onready var initial_speed = speed
 
 func _ready():
@@ -62,8 +64,13 @@ func _on_top_checker_body_entered(body):
 	if not is_jumpable:
 		body.take_damage(position.x)
 		return
+	
+	take_damage()
+	
 
-
+func take_damage():
+	is_flipped = true
+	
 	if $AnimatedSprite.frames.has_animation("squashed"):
 		$AnimatedSprite.play("squashed")
 
@@ -85,17 +92,19 @@ func force_bounce(bounciness):
 	velocity.y = bounciness
 
 func _on_sides_checker_body_entered(body):
-	if does_damage:
+	if not is_flipped and does_damage and body.has_method("take_damage"):
 		body.take_damage(position.x)
 
 func _on_bottom_checker_body_entered(body):
-	if does_damage:
+	if not is_flipped and does_damage and body.has_method("take_damage"):
 		body.take_damage(position.x)
 
 func _on_Timer_timeout():
 	if is_invulnv:
 		speed = initial_speed
 		$AnimatedSprite.play("crawl")
+		$AnimatedSprite.flip_v = false
+		is_flipped = false
 	else:
 		queue_free()
 

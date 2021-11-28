@@ -8,7 +8,7 @@ radius = 8.0
 height = 16.0
 
 [node name="Pickup" type="KinematicBody2D"]
-collision_layer = 16
+collision_layer = 64
 collision_mask = 2
 script = ExtResource( 1 )
 
@@ -27,6 +27,7 @@ one_shot = true
 
 [node name="PickupArea" type="Area2D" parent="."]
 collision_layer = 0
+collision_mask = 17
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="PickupArea"]
 position = Vector2( 0, -16 )
@@ -34,3 +35,4 @@ shape = SubResource( 1 )
 
 [connection signal="timeout" from="ThrowToPickupTimer" to="." method="_on_ThrowToPickupTimer_timeout"]
 [connection signal="body_entered" from="PickupArea" to="." method="_on_PickupArea_body_entered"]
+[connection signal="body_exited" from="PickupArea" to="." method="_on_PickupArea_body_exited"]
