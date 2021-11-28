@@ -8,6 +8,8 @@ radius = 8.0
 height = 16.0
 
 [node name="Pickup" type="KinematicBody2D"]
+collision_layer = 16
+collision_mask = 3
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -18,3 +20,9 @@ texture = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -16 )
 shape = SubResource( 1 )
+
+[node name="ThrowToPickupTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[connection signal="timeout" from="ThrowToPickupTimer" to="." method="_on_ThrowToPickupTimer_timeout"]

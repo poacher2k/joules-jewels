@@ -37,6 +37,9 @@ enabled = true
 cast_to = Vector2( 0, 6 )
 
 [node name="PickupHold" type="Node2D" parent="."]
-position = Vector2( 0, -76 )
+position = Vector2( 0, -64 )
+
+[node name="ThrowPos" type="Node2D" parent="."]
+position = Vector2( 24, -64 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

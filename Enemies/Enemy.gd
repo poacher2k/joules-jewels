@@ -81,9 +81,6 @@ func _on_top_checker_body_entered(body):
 
 	$Timer.start()
 
-	print("force bouncing!")
-	body.force_bounce(bounciness)
-
 func force_bounce(bounciness):
 	velocity.y = bounciness
 

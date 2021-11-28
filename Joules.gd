@@ -20,14 +20,15 @@ onready var pickupsParent = get_node(pickupsParentPath)
 
 onready var platform_detector = $PlatformDetector
 onready var pickup_hold = $PickupHold
+onready var throw_pos = $ThrowPos
 
 export(float) var COYOTE_TIME_MS = 50
 var velocity = Vector2(0, 0)
 var gravity_direction = 1
 var is_alive = true
+var face_direction = 1
 
 var last_touched_ground = 0
-var last_thrown = 0
 
 export(float) var MIN_THROW_PICKUP_DELAY = 200
 
@@ -60,9 +61,6 @@ func _physics_process(_delta):
 
 	var direction = get_direction()
 
-	if direction.x != 0:
-		$Sprite.flip_h = direction.x == -1
-
 	var is_jump_interrupted = Input.is_action_just_released("jump") and velocity.y < 0.0
 	velocity = calculate_move_velocity(velocity, direction, SPEED, is_jump_interrupted)
 
@@ -76,6 +74,18 @@ func _physics_process(_delta):
 		pass
 #		$Sprite.play("air")
 
+	if current_pickup_instance:
+		if Input.is_action_just_pressed("fire"):
+			throw()
+	else:
+		for i in get_slide_count():
+			var collision = get_slide_collision(i)
+			var collisionCollider = collision.collider
+			if not current_pickup_instance and collisionCollider.has_method("can_pickup") and collisionCollider.can_pickup():
+				collisionCollider.is_picked_up = true
+				collisionCollider.call_deferred("queue_free")
+				pickup(PICKUP_SCENE)
+
 	var snap_vector = Vector2.ZERO
 	if direction.y == 0.0:
 		snap_vector = Vector2.DOWN * FLOOR_DETECT_DISTANCE
@@ -83,21 +93,13 @@ func _physics_process(_delta):
 	velocity = move_and_slide_with_snap(
 		velocity, snap_vector, FLOOR_NORMAL, not is_on_platform, 4, 0.9, false
 	)
+	
+	if direction.x != 0 and direction.x != face_direction:
+		$Sprite.flip_h = direction.x == -1
+		face_direction = direction.x
+		throw_pos.position.x *= -1 
 
-	if current_pickup_instance:
-		if Input.is_action_just_pressed("fire"):
-			throw()
-			last_thrown = now
-	elif now - last_thrown >= MIN_THROW_PICKUP_DELAY:
-		for i in get_slide_count():
-			var collision = get_slide_collision(i)
-			var collisionCollider = collision.collider
-			if collisionCollider.has_method("can_pickup") and collisionCollider.can_pickup():
-				print("PICKING UP!!!!!")
-				collisionCollider.is_picked_up = true
-				collisionCollider.call_deferred("queue_free")
-				pickup(PICKUP_SCENE)
-	#			collisionCollider.collisionShape.set_deferred("disabled", true)
+	
 
 #	velocity = move_and_slide(velocity, Vector2.UP * gravity_direction)
 #
@@ -111,13 +113,20 @@ func pickup(type: PackedScene):
 	current_pickup_instance = newChild
 
 func throw():
-	print("Throwing!")
 	var direction = get_direction()
 	var newChild = current_pickup_type.instance()
-	newChild.position = current_pickup_instance.global_position
-	newChild.velocity = velocity
-	newChild.velocity.x = (abs(velocity.x) + THROW_FORCE) * direction.x
-#	newChild.throw(velocity, direction)
+	newChild.position = throw_pos.global_position
+	
+	var initial_velocity = velocity
+	initial_velocity.x = (abs(velocity.x) + THROW_FORCE) * direction.x
+	
+	if face_direction == 1:
+		initial_velocity.x = max(initial_velocity.x, THROW_FORCE)
+	else:
+		initial_velocity.x = min(initial_velocity.x, -THROW_FORCE)
+	
+	newChild.throw(initial_velocity)
+	
 	pickupsParent.call_deferred("add_child", newChild)
 	current_pickup_instance.call_deferred("queue_free")
 	current_pickup_type = null
