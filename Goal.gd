@@ -16,7 +16,7 @@ func collect_soul():
 	current_souls += 1
 	update_particles()
 
-	emit_signal("soul_collected")
+	emit_signal("soul_collected", current_souls, souls_needed)
 
 	if current_souls >= souls_needed:
 		get_tree().change_scene_to(next_level)
@@ -26,6 +26,9 @@ func update_particles():
 	$Particles.amount = max(current_souls * particles_per_soul, 1)
 
 	$Particles.emitting = current_souls > 0
+	
+	emit_signal("soul_collected", current_souls, souls_needed)
+	
 
 func _on_Goal_area_entered(area):
 	var parent = area.get_parent()

@@ -109,40 +109,27 @@ func flip():
 		else:
 			$Timer.autostart = true
 
-	$AnimatedSprite.stop()
-	$AnimatedSprite.flip_v = true
+	$AnimatedSprite.play("flipped")
+	
 
 	set_collision_layer_bit(4, false)
 	set_collision_mask_bit(4, false)
 
-	$top_checker/CollisionShape2D.set_deferred("disabled", true)
 	$sides_checker/CollisionShape2D.set_deferred("disabled", true)
 	$bottom_checker/CollisionShape2D.set_deferred("disabled", true)
 
 func unflip():
 	is_flipped = false
 	$AnimatedSprite.play("crawl")
-	$AnimatedSprite.flip_v = false
 
 	set_collision_layer_bit(4, true)
 	set_collision_mask_bit(4, true)
 
-	$top_checker/CollisionShape2D.set_deferred("disabled", false)
 	$sides_checker/CollisionShape2D.set_deferred("disabled", false)
 	$bottom_checker/CollisionShape2D.set_deferred("disabled", false)
 
 func can_pickup():
 	return not is_picked_up
-
-func _on_top_checker_body_entered(body):
-	if is_flipped:
-		return
-
-	if not is_jumpable:
-		body.take_damage(position.x)
-		return
-
-	take_damage()
 
 func force_bounce(bounciness):
 	velocity.y = bounciness

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/test1024.png-9f7590d9067584c00ed975a36132db68.stex"
+path="res://.import/platform_256x256.png-9f5e61f222328c57f1f02a79ea6c4665.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ASSETS/player/test1024.png"
-dest_files=[ "res://.import/test1024.png-9f7590d9067584c00ed975a36132db68.stex" ]
+source_file="res://ASSETS/WorldTiles/platform_256x256.png"
+dest_files=[ "res://.import/platform_256x256.png-9f5e61f222328c57f1f02a79ea6c4665.stex" ]
 
 [params]
 

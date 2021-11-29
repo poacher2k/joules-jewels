@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://ASSETS/enemies/red_enemy_walk_02.png" type="Texture" id=1]
 [ext_resource path="res://ASSETS/enemies/red_enemy_walk_03.png" type="Texture" id=2]
@@ -6,13 +6,17 @@
 [ext_resource path="res://Enemies/Enemy.gd" type="Script" id=4]
 [ext_resource path="res://ASSETS/enemies/red_enemy_walk_04.png" type="Texture" id=5]
 [ext_resource path="res://ASSETS/enemies/red_enemy_walk_01.png" type="Texture" id=6]
+[ext_resource path="res://ASSETS/enemies/red_enemy_down_01.png" type="Texture" id=7]
+[ext_resource path="res://ASSETS/enemies/red_enemy_down_03.png" type="Texture" id=8]
+[ext_resource path="res://ASSETS/enemies/red_enemy_down_02.png" type="Texture" id=9]
+[ext_resource path="res://ASSETS/enemies/red_enemy_down_04.png" type="Texture" id=10]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [  ],
+"frames": [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "flipped",
-"speed": 5.0
+"speed": 6.0
 }, {
 "frames": [ ExtResource( 6 ), ExtResource( 1 ), ExtResource( 2 ), ExtResource( 5 ) ],
 "loop": true,
@@ -26,7 +30,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 89.8056, 82.3387 )
+extents = Vector2( 89.8056, 112 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 92, 96.8797 )
@@ -35,33 +39,34 @@ extents = Vector2( 92, 96.8797 )
 extents = Vector2( 16.7057, 3.30801 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 24.8841, 17.2869 )
+extents = Vector2( 92, 112 )
 
 [node name="Enemy" type="KinematicBody2D" groups=["enemies"]]
+position = Vector2( 0, -64 )
+scale = Vector2( 0.5, 0.5 )
 collision_layer = 16
 collision_mask = 50
 script = ExtResource( 4 )
 MAX_SPEED = 250
 GROUND_FRICTION = 0.15
 is_invulnv = true
-is_jumpable = false
-is_invulnv = true
 no_modulate = true
+is_jumpable = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "crawl"
-frame = 2
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.194397, 4.3387 )
+position = Vector2( 0, 16 )
 shape = SubResource( 2 )
 
 [node name="floor_checker" type="RayCast2D" parent="."]
-position = Vector2( -16, 0 )
+position = Vector2( -84, 108 )
 enabled = true
-cast_to = Vector2( 0, 20 )
+cast_to = Vector2( 0, 30 )
 collision_mask = 2
 
 [node name="sides_checker" type="Area2D" parent="."]
@@ -91,7 +96,7 @@ collision_mask = 145
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
 self_modulate = Color( 1, 0.4, 0, 1 )
-position = Vector2( 0, 0.63903 )
+position = Vector2( 0, 16 )
 shape = SubResource( 6 )
 
 [node name="ThrowToPickupTimer" type="Timer" parent="."]
