@@ -38,7 +38,9 @@ collision_layer = 16
 collision_mask = 50
 script = ExtResource( 4 )
 MAX_SPEED = 250
+GROUND_FRICTION = 0.15
 is_invulnv = true
+is_jumpable = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
@@ -86,7 +88,7 @@ one_shot = true
 
 [node name="PickupArea" type="Area2D" parent="."]
 collision_layer = 16
-collision_mask = 17
+collision_mask = 145
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
 self_modulate = Color( 1, 0.4, 0, 1 )
@@ -101,6 +103,7 @@ one_shot = true
 [connection signal="body_entered" from="sides_checker" to="." method="_on_sides_checker_body_entered"]
 [connection signal="body_entered" from="bottom_checker" to="." method="_on_bottom_checker_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="area_entered" from="PickupArea" to="." method="_on_PickupArea_area_entered"]
 [connection signal="body_entered" from="PickupArea" to="." method="_on_PickupArea_body_entered"]
 [connection signal="body_exited" from="PickupArea" to="." method="_on_PickupArea_body_exited"]
 [connection signal="timeout" from="ThrowToPickupTimer" to="." method="_on_ThrowToPickupTimer_timeout"]

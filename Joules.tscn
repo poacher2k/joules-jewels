@@ -8,13 +8,13 @@ radius = 26.8234
 height = 12.5472
 
 [node name="Joules" type="KinematicBody2D"]
-scale = Vector2( 2, 2 )
 collision_mask = 14
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
 SPEED = Vector2( 100, 1000 )
+THROW_FORCE = Vector2( 1000, 0 )
 MIN_THROW_PICKUP_DELAY = 500.0
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
