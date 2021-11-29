@@ -4,7 +4,7 @@ export var SPEED = Vector2(200.0, 1000.0)
 export var MAX_SPEED = 1000
 export var WALK_ANIMATION_THRESHOLD = 50
 export var GRAVITY = 35
-export var THROW_FORCE = 1000
+export var THROW_FORCE = Vector2(1000.0, 200.0)
 const JUMP_FORCE = -1100
 const FLOOR_DETECT_DISTANCE = 20.0
 const FLOOR_NORMAL = Vector2.UP
@@ -46,8 +46,6 @@ onready var pickup_types = {
 func _ready():
 	jumpBtn.connect("touch_started", self, "jump")
 
-	if Global.current_checkpoint != null:
-		global_position = Global.current_checkpoint
 
 
 func _physics_process(_delta):
@@ -124,12 +122,12 @@ func throw():
 	newChild.position = throw_pos.global_position
 
 	var initial_velocity = velocity
-	initial_velocity.x = (abs(velocity.x) + THROW_FORCE) * direction.x
-
+	initial_velocity.x = (abs(velocity.x) + THROW_FORCE.x) * direction.x
+	initial_velocity.y += -THROW_FORCE.y
 	if face_direction == 1:
-		initial_velocity.x = max(initial_velocity.x, THROW_FORCE)
+		initial_velocity.x = max(initial_velocity.x, THROW_FORCE.x)
 	else:
-		initial_velocity.x = min(initial_velocity.x, -THROW_FORCE)
+		initial_velocity.x = min(initial_velocity.x, -THROW_FORCE.x)
 
 	newChild.throw(initial_velocity)
 
@@ -168,7 +166,7 @@ func get_direction():
 
 
 func reset_scene():
-	get_tree().change_scene("res://Level1.tscn")
+	get_tree().reload_current_scene()
 
 
 func jump():
