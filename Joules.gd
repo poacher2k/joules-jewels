@@ -36,9 +36,11 @@ var current_pickup_type = null
 var current_pickup_instance = null
 
 const PICKUP_SCENE = preload("res://Pickup.tscn")
+const ENEMY1_SCENE = preload("res://Enemies/Enemy.tscn")
 
 onready var pickup_types = {
-	"pickup": PICKUP_SCENE
+	"pickup": PICKUP_SCENE,
+	"enemy1": ENEMY1_SCENE
 }
 
 func _ready():
@@ -89,13 +91,13 @@ func _physics_process(_delta):
 	velocity = move_and_slide_with_snap(
 		velocity, snap_vector, FLOOR_NORMAL, not is_on_platform, 4, 0.9, false
 	)
-	
+
 	if direction.x != 0 and direction.x != face_direction:
 		$Sprite.flip_h = direction.x == -1
 		face_direction = direction.x
-		throw_pos.position.x *= -1 
+		throw_pos.position.x *= -1
 
-	
+
 
 #	velocity = move_and_slide(velocity, Vector2.UP * gravity_direction)
 #
@@ -104,12 +106,12 @@ func _physics_process(_delta):
 func pickup(collisionBody):
 	if current_pickup_instance:
 		return
-	
+
 	collisionBody.is_picked_up = true
 	collisionBody.call_deferred("queue_free")
-	
+
 	var type = pickup_types.get(collisionBody.pickup_type)
-	
+
 	var newChild = type.instance()
 	newChild.pickup()
 	pickup_hold.call_deferred("add_child", newChild)
@@ -120,17 +122,17 @@ func throw():
 	var direction = get_direction()
 	var newChild = current_pickup_type.instance()
 	newChild.position = throw_pos.global_position
-	
+
 	var initial_velocity = velocity
 	initial_velocity.x = (abs(velocity.x) + THROW_FORCE) * direction.x
-	
+
 	if face_direction == 1:
 		initial_velocity.x = max(initial_velocity.x, THROW_FORCE)
 	else:
 		initial_velocity.x = min(initial_velocity.x, -THROW_FORCE)
-	
+
 	newChild.throw(initial_velocity)
-	
+
 	pickupsParent.call_deferred("add_child", newChild)
 	current_pickup_instance.call_deferred("queue_free")
 	current_pickup_type = null

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://ASSETS/enemies/slimeBlue_blue.png" type="Texture" id=1]
 [ext_resource path="res://ASSETS/enemies/slimeBlue.png" type="Texture" id=2]
@@ -7,15 +7,15 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 1 ) ],
-"loop": true,
-"name": "crawl",
-"speed": 3.0
-}, {
 "frames": [ ExtResource( 3 ) ],
 "loop": true,
 "name": "squashed",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "crawl",
+"speed": 3.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -30,10 +30,14 @@ extents = Vector2( 24.7547, 10 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 16.7057, 3.30801 )
 
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 24.8841, 17.2869 )
+
 [node name="Enemy" type="KinematicBody2D" groups=["enemies"]]
 collision_layer = 16
-collision_mask = 51
+collision_mask = 50
 script = ExtResource( 4 )
+MAX_SPEED = 250
 is_invulnv = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -80,7 +84,23 @@ shape = SubResource( 3 )
 wait_time = 5.0
 one_shot = true
 
+[node name="PickupArea" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 17
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
+self_modulate = Color( 1, 0.4, 0, 1 )
+position = Vector2( 0, 0.63903 )
+shape = SubResource( 6 )
+
+[node name="ThrowToPickupTimer" type="Timer" parent="."]
+wait_time = 0.35
+one_shot = true
+
 [connection signal="body_entered" from="top_checker" to="." method="_on_top_checker_body_entered"]
 [connection signal="body_entered" from="sides_checker" to="." method="_on_sides_checker_body_entered"]
 [connection signal="body_entered" from="bottom_checker" to="." method="_on_bottom_checker_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="body_entered" from="PickupArea" to="." method="_on_PickupArea_body_entered"]
+[connection signal="body_exited" from="PickupArea" to="." method="_on_PickupArea_body_exited"]
+[connection signal="timeout" from="ThrowToPickupTimer" to="." method="_on_ThrowToPickupTimer_timeout"]
