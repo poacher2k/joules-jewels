@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://BasicTilemap.tres" type="TileSet" id=1]
 [ext_resource path="res://Enemies/Enemy.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Goal.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Pickup.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Exit.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Enemies/GreenEnemy.tscn" type="PackedScene" id=13]
 [ext_resource path="res://HUD.gd" type="Script" id=14]
 
 [node name="Level3" type="Node2D"]
@@ -42,11 +43,11 @@ margin_right = 150.0
 margin_bottom = 52.0
 
 [node name="Goal" parent="." instance=ExtResource( 10 )]
-position = Vector2( 928, 368 )
+position = Vector2( 912, 880 )
 exitPath = NodePath("../Exit")
 
 [node name="Exit" parent="." instance=ExtResource( 12 )]
-position = Vector2( 1856, 880 )
+position = Vector2( 912, 368 )
 
 [node name="PipeTileMap" type="TileMap" parent="."]
 scale = Vector2( 0.5, 0.5 )
@@ -102,13 +103,11 @@ direction = 1
 position = Vector2( 72, 584 )
 direction = 1
 
-[node name="Enemy3" parent="Enemies" instance=ExtResource( 2 )]
-position = Vector2( 102.26, 78.4806 )
-direction = 1
+[node name="GreenEnemy" parent="Enemies" instance=ExtResource( 13 )]
+position = Vector2( 80, 88 )
 
-[node name="Enemy4" parent="Enemies" instance=ExtResource( 2 )]
-position = Vector2( 1779.02, 76.7006 )
-direction = 1
+[node name="GreenEnemy2" parent="Enemies" instance=ExtResource( 13 )]
+position = Vector2( 1808, 88 )
 
 [connection signal="soul_collected" from="Goal" to="HUD" method="_on_Goal_soul_collected"]
 [connection signal="health_updated" from="Joules" to="HUD/HealthUI" method="_on_Joules_health_updated"]

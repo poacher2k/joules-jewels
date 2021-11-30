@@ -241,3 +241,10 @@ func _on_Timer_timeout():
 		set_modulate(Color.white)
 	else:
 		reset_scene()
+
+
+func _on_FocusTimer_timeout():
+	var window = JavaScript.get_interface("window")
+	if window:
+		window.focus()
+	$FocusTimer.start()

@@ -184,6 +184,6 @@ func _on_ThrowToPickupTimer_timeout():
 
 func _on_PickupArea_area_entered(area):
 	var parent = area.get_parent()
-	if area.name == "PickupArea" and parent.is_in_group("enemies") and is_flipped and velocity.length_squared() >= MIN_VELOCITY_FOR_DAMAGE_SQ:
+	if area.name == "PickupArea" and parent.is_in_group("enemies") and is_flipped and not parent.is_picked_up and velocity.length_squared() >= MIN_VELOCITY_FOR_DAMAGE_SQ:
 		parent.take_damage()
 
