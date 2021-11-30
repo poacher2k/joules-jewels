@@ -10,7 +10,7 @@
 [ext_resource path="res://ASSETS/enemies/red_enemy_down_03.png" type="Texture" id=8]
 [ext_resource path="res://ASSETS/enemies/red_enemy_down_02.png" type="Texture" id=9]
 [ext_resource path="res://ASSETS/enemies/red_enemy_down_04.png" type="Texture" id=10]
-[ext_resource path="res://Sounds/Swipe.wav" type="AudioStream" id=11]
+[ext_resource path="res://Sounds/monsterHurt.wav" type="AudioStream" id=11]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 89.8056, 112 )
@@ -81,7 +81,6 @@ stream = ExtResource( 11 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "crawl"
-frame = 1
 playing = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

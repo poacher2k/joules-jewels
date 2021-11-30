@@ -27,9 +27,7 @@ func collect_soul():
 
 	if current_souls >= souls_needed:
 		$FinishAudio.play()
-
-func finish_level():
-	exit.make_active()
+		exit.make_active()
 
 func _on_Goal_area_entered(area):
 	var parent = area.get_parent()

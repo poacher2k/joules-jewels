@@ -79,13 +79,20 @@ func _physics_process(_delta):
 
 	if is_on_floor():
 		if abs(velocity.x) >= WALK_ANIMATION_THRESHOLD:
-			pass
-#			$Sprite.play("walk")
+			if current_pickup_instance:
+				$Sprite.play("walk_pickup")
+			else:
+				$Sprite.play("walk")
 		else:
-			$Sprite.play("idle")
+			if current_pickup_instance:
+				$Sprite.play("idle_pickup")
+			else:
+				$Sprite.play("idle")
 	else:
-		pass
-#		$Sprite.play("air")
+		if current_pickup_instance:
+			$Sprite.play("jump_pickup")
+		else:
+			$Sprite.play("jump")
 
 	if current_pickup_instance:
 		if Input.is_action_just_pressed("fire"):
@@ -103,9 +110,6 @@ func _physics_process(_delta):
 		$Sprite.flip_h = direction.x == -1
 		face_direction = direction.x
 		throw_pos.position.x *= -1
-
-#	velocity = move_and_slide(velocity, Vector2.UP * gravity_direction)
-
 
 func pickup(collisionBody):
 	if current_pickup_instance:
