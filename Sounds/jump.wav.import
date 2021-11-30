@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/monsterHurt.wav-c9613fa62cce1700655b2af1f2aed046.sample"
+path="res://.import/jump.wav-81b67a307a1849f1bf4887af4439406d.sample"
 
 [deps]
 
-source_file="res://Sounds/monsterHurt.wav"
-dest_files=[ "res://.import/monsterHurt.wav-c9613fa62cce1700655b2af1f2aed046.sample" ]
+source_file="res://Sounds/jump.wav"
+dest_files=[ "res://.import/jump.wav-81b67a307a1849f1bf4887af4439406d.sample" ]
 
 [params]
 

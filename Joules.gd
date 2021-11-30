@@ -57,6 +57,10 @@ func _ready():
 
 
 func _physics_process(_delta):
+	if Input.is_action_just_pressed("restart"):
+		reset_scene()
+		return
+
 #	if joystick and joystick.is_working:
 #		velocity.x = joystick.output.x * SPEED
 #		$Sprite.play("walk")
