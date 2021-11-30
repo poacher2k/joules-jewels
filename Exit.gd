@@ -16,7 +16,8 @@ func make_active():
 		return
 
 	is_active = true
-	# trigger animation here
+
+	$Sprite.play("open")
 
 func _on_Exit_body_entered(body):
 	if not is_active:
