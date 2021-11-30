@@ -20,9 +20,9 @@ extents = Vector2( 92, 112 )
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 10 ) ],
+"frames": [ ExtResource( 6 ), ExtResource( 1 ), ExtResource( 2 ), ExtResource( 5 ) ],
 "loop": true,
-"name": "flipped",
+"name": "crawl",
 "speed": 6.0
 }, {
 "frames": [ ExtResource( 3 ) ],
@@ -30,9 +30,9 @@ animations = [ {
 "name": "squashed",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ), ExtResource( 1 ), ExtResource( 2 ), ExtResource( 5 ) ],
+"frames": [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 10 ) ],
 "loop": true,
-"name": "crawl",
+"name": "flipped",
 "speed": 6.0
 } ]
 
@@ -81,7 +81,7 @@ stream = ExtResource( 11 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "crawl"
-frame = 3
+frame = 1
 playing = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

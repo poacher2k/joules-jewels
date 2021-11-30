@@ -20,9 +20,9 @@ extents = Vector2( 112, 80 )
 
 [sub_resource type="SpriteFrames" id=7]
 animations = [ {
-"frames": [ ExtResource( 8 ), ExtResource( 5 ), ExtResource( 10 ), ExtResource( 1 ) ],
+"frames": [ ExtResource( 2 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 6 ) ],
 "loop": true,
-"name": "flipped",
+"name": "crawl",
 "speed": 6.0
 }, {
 "frames": [ ExtResource( 3 ) ],
@@ -30,9 +30,9 @@ animations = [ {
 "name": "squashed",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 2 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 6 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 5 ), ExtResource( 10 ), ExtResource( 1 ) ],
 "loop": true,
-"name": "crawl",
+"name": "flipped",
 "speed": 6.0
 } ]
 

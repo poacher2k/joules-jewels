@@ -12,6 +12,7 @@ signal soul_collected
 
 func _ready():
 	Global.reset()
+	emit_signal("soul_collected", current_souls, souls_needed)
 
 func collect_soul():
 	$Sprite.play("grind")

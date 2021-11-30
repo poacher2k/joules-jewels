@@ -62,6 +62,11 @@ position = Vector2( -0.191071, -37.7178 )
 scale = Vector2( 0.5, 0.5 )
 frames = ExtResource( 1 )
 animation = "idle"
+frame = 1
 playing = true
 
+[node name="FocusTimer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="FocusTimer" to="." method="_on_FocusTimer_timeout"]
