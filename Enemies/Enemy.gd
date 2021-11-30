@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 export var gravity = 20
 export var WALL_VELOCITY_BOUNCE_STEAL = 1000
-export var MIN_VELOCITY_FOR_DAMAGE = 250
+export var MIN_VELOCITY_FOR_DAMAGE = 50
 export var MAX_SPEED = 750
 export var GROUND_FRICTION = 0.1
 export var AIR_FRICTION = 0.01
@@ -63,7 +63,7 @@ func throw(initial_velocity):
 	$PickupArea.set_collision_mask_bit(0, false)
 	$ThrowToPickupTimer.autostart = true
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if not is_alive or is_picked_up:
 		return
 
@@ -85,8 +85,9 @@ func _physics_process(delta):
 	if is_static:
 		velocity.x = 0
 	elif not is_flipped:
-		velocity.x += speed * direction
-		velocity.x = clamp(velocity.x, -MAX_SPEED, MAX_SPEED)
+		if is_floating or is_on_floor():
+			velocity.x += speed * direction
+			velocity.x = clamp(velocity.x, -MAX_SPEED, MAX_SPEED)
 
 	if is_on_floor():
 		velocity.x = lerp(velocity.x, 0, GROUND_FRICTION)
@@ -103,20 +104,16 @@ func _physics_process(delta):
 func flip():
 	is_flipped = true
 	if not is_picked_up:
-		print(self.name, " ", is_instanced)
 		if is_instanced:
 			$Timer.start(5)
 		else:
 			$Timer.autostart = true
 
 	$AnimatedSprite.play("flipped")
-	
+
 
 	set_collision_layer_bit(4, false)
 	set_collision_mask_bit(4, false)
-
-	$sides_checker/CollisionShape2D.set_deferred("disabled", true)
-	$bottom_checker/CollisionShape2D.set_deferred("disabled", true)
 
 func unflip():
 	is_flipped = false
@@ -125,28 +122,11 @@ func unflip():
 	set_collision_layer_bit(4, true)
 	set_collision_mask_bit(4, true)
 
-	$sides_checker/CollisionShape2D.set_deferred("disabled", false)
-	$bottom_checker/CollisionShape2D.set_deferred("disabled", false)
-
 func can_pickup():
 	return not is_picked_up
 
-func force_bounce(bounciness):
-	velocity.y = bounciness
-
-func _on_sides_checker_body_entered(body):
-	if is_flipped:
-		return
-
-	if does_damage and body.has_method("take_damage"):
-		body.take_damage(position.x)
-
-func _on_bottom_checker_body_entered(body):
-	if is_flipped:
-		return
-
-	if does_damage and body.has_method("take_damage"):
-		body.take_damage(position.x)
+func force_bounce(force):
+	velocity.y = force
 
 func _on_Timer_timeout():
 	if is_invulnv:
@@ -162,12 +142,12 @@ func take_damage():
 
 	$AnimatedSprite.stop()
 
+	if not $HitAudio.playing:
+		$HitAudio.play()
+
 	if not is_invulnv:
 		$CollisionShape2D.queue_free()
 		$floor_checker.queue_free()
-		$top_checker.queue_free()
-		$sides_checker.queue_free()
-		$bottom_checker.queue_free()
 
 		is_alive = false
 
@@ -180,17 +160,15 @@ func restart_timer():
 	$Timer.start(5)
 
 func _on_PickupArea_body_entered(body):
-	if body.name == "Enemy5":
-		print("WAHT")
+	var isJoules = body.name == "Joules"
 	if not is_flipped:
+		if isJoules:
+			body.take_damage(global_position.x)
 		return
 
-	if can_pickup() and body.name == "Joules":
+	if can_pickup() and isJoules:
 		joules = body
 		joules.pickup(self)
-#	elif body.name == "Goal":
-#		body.collect_soul()
-#		call_deferred("queue_free")
 
 func _on_PickupArea_body_exited(body):
 	if not is_flipped:
@@ -206,6 +184,6 @@ func _on_ThrowToPickupTimer_timeout():
 
 func _on_PickupArea_area_entered(area):
 	var parent = area.get_parent()
-	if area.name == "PickupArea" and parent.is_in_group("enemies") and velocity.length_squared() >= MIN_VELOCITY_FOR_DAMAGE_SQ:
+	if area.name == "PickupArea" and parent.is_in_group("enemies") and is_flipped and velocity.length_squared() >= MIN_VELOCITY_FOR_DAMAGE_SQ:
 		parent.take_damage()
 

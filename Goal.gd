@@ -1,34 +1,34 @@
 extends Area2D
 
-export var next_level : PackedScene
-export var souls_needed = 10.0
+export var souls_needed = -1.0
 export var current_souls = 0.0
 export var particles_per_soul = 50.0
 export var max_radius = 100.0
 
+export (NodePath) var exitPath
+onready var exit = get_node(exitPath)
+
 signal soul_collected
 
 func _ready():
-#	update_particles()
-	print("HELLLOOOO")
+	Global.reset()
 
 func collect_soul():
+	$Sprite.play("grind")
+	$Sprite.frame = 0
+
 	current_souls += 1
-	update_particles()
 
 	emit_signal("soul_collected", current_souls, souls_needed)
+
+	if not $SoulCollectPlayer.playing:
+		$SoulCollectPlayer.play()
 
 	if current_souls >= souls_needed:
-		get_tree().change_scene_to(next_level)
+		$FinishAudio.play()
 
-func update_particles():
-	$Particles.emission_sphere_radius = (current_souls / souls_needed) * max_radius
-	$Particles.amount = max(current_souls * particles_per_soul, 1)
-
-	$Particles.emitting = current_souls > 0
-	
-	emit_signal("soul_collected", current_souls, souls_needed)
-	
+func finish_level():
+	exit.make_active()
 
 func _on_Goal_area_entered(area):
 	var parent = area.get_parent()
@@ -42,3 +42,7 @@ func _on_Goal_area_entered(area):
 		parent.call_deferred("queue_free")
 		collect_soul()
 
+
+
+func _on_Sprite_animation_finished():
+	$Sprite.play("idle")

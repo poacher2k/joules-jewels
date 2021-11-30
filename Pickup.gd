@@ -16,7 +16,7 @@ var prev_velocity = Vector2.ZERO
 const pickup_type = "pickup"
 var joules = null
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if is_picked_up:
 		return
 

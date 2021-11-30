@@ -4,4 +4,6 @@
 
 [node name="Global" type="Node"]
 script = ExtResource( 1 )
-delete_save = true
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+autoplay = true
