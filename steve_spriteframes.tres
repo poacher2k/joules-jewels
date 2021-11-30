@@ -1,61 +1,47 @@
-[gd_resource type="SpriteFrames" load_steps=9 format=2]
+[gd_resource type="SpriteFrames" load_steps=10 format=2]
 
 [ext_resource path="res://ASSETS/player/player_idle_00.png" type="Texture" id=1]
+[ext_resource path="res://ASSETS/player/player_run_01.png" type="Texture" id=2]
+[ext_resource path="res://ASSETS/player/player_run_02.png" type="Texture" id=3]
 [ext_resource path="res://ASSETS/player/player_idle_01.png" type="Texture" id=4]
-
-[sub_resource type="StreamTexture" id=5]
-flags = 4
-load_path = "res://.import/platformChar_duck.png-3df1f140a3ba0998aa8f0652dcd92534.stex"
-
-[sub_resource type="StreamTexture" id=1]
-flags = 4
-load_path = "res://.import/platformChar_walk1.png-155fd450e544c6c92cabb89c6a7810a7.stex"
-
-[sub_resource type="StreamTexture" id=2]
-flags = 4
-load_path = "res://.import/platformChar_walk2.png-09215c7bb71f7d1872361e483c66c685.stex"
+[ext_resource path="res://ASSETS/player/player_run_hold_02.png" type="Texture" id=5]
+[ext_resource path="res://ASSETS/player/player_idle_holding_02.png" type="Texture" id=6]
+[ext_resource path="res://ASSETS/player/player_idle_holding_01.png" type="Texture" id=7]
+[ext_resource path="res://ASSETS/player/player_run_hold_01.png" type="Texture" id=8]
 
 [sub_resource type="StreamTexture" id=6]
 flags = 4
 load_path = "res://.import/platformChar_jump.png-575e87204c93b284b6fd83d12be58002.stex"
 
-[sub_resource type="StreamTexture" id=3]
-flags = 4
-load_path = "res://.import/platformChar_climb1.png-c375f7169db9ecda5adfbc5c689ed3cb.stex"
-
-[sub_resource type="StreamTexture" id=4]
-flags = 4
-load_path = "res://.import/platformChar_climb2.png-c3f75b50e0ff99cab5c2ef9caa1f8b3c.stex"
-
 [resource]
 animations = [ {
-"frames": [ SubResource( 5 ) ],
-"loop": true,
-"name": "crouch",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 1 ), SubResource( 2 ) ],
-"loop": true,
-"name": "walk",
-"speed": 5.0
-}, {
-"frames": [  ],
-"loop": true,
-"name": "hurt",
-"speed": 10.0
-}, {
 "frames": [ SubResource( 6 ) ],
 "loop": true,
-"name": "air",
-"speed": 5.0
+"name": "jump",
+"speed": 10.0
 }, {
-"frames": [ SubResource( 3 ), SubResource( 4 ) ],
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
 "loop": true,
-"name": "climb",
-"speed": 5.0
+"name": "walk",
+"speed": 10.0
 }, {
 "frames": [ ExtResource( 1 ), ExtResource( 4 ) ],
 "loop": true,
 "name": "idle",
-"speed": 5.0
+"speed": 10.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "jump_pickup",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "walk_pickup",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "idle_pickup",
+"speed": 10.0
 } ]
