@@ -19,6 +19,7 @@ __meta__ = {
 }
 SPEED = Vector2( 200, 1100 )
 MAX_SPEED = 900
+AIR_FRICTION = 0.2
 THROW_FORCE = Vector2( 1000, 0 )
 INVULN_TIME_MS = 2000
 MIN_THROW_PICKUP_DELAY = 500.0
@@ -58,7 +59,6 @@ position = Vector2( 4.38199, -37.7178 )
 scale = Vector2( 0.5, 0.5 )
 frames = ExtResource( 1 )
 animation = "idle"
-frame = 1
 playing = true
 
 [node name="FocusTimer" type="Timer" parent="."]

@@ -1,8 +1,9 @@
 extends KinematicBody2D
 
-export var SPEED = Vector2(200.0, 1000.0)
+export var SPEED = Vector2(100.0, 1000.0)
 export var MAX_SPEED = 1000
 export var GROUND_FRICTION = 0.1
+export var AIR_FRICTION = 0.1
 export var WALK_ANIMATION_THRESHOLD = 50
 export var GRAVITY = 35
 export var THROW_FORCE = Vector2(1000.0, 200.0)
@@ -110,6 +111,12 @@ func _physics_process(_delta):
 		velocity, snap_vector, FLOOR_NORMAL, not is_on_platform, 4, 0.9, false
 	)
 
+	if is_on_floor():
+		velocity.x = lerp(velocity.x, 0, GROUND_FRICTION)
+	else:
+		velocity.x = lerp(velocity.x, 0, AIR_FRICTION)
+
+
 	if direction.x != 0 and direction.x != face_direction:
 		$Sprite.flip_h = direction.x == -1
 		face_direction = direction.x
@@ -167,7 +174,7 @@ func calculate_move_velocity(
 	var velocity = linear_velocity
 	velocity.x += speed.x * direction.x
 	velocity.x = clamp(velocity.x, -MAX_SPEED, MAX_SPEED)
-	velocity.x = lerp(velocity.x, 0, GROUND_FRICTION)
+
 	if direction.y != 0.0:
 		velocity.y = speed.y * direction.y
 	if is_jump_interrupted:
