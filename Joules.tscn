@@ -7,9 +7,8 @@
 [ext_resource path="res://Sounds/playerHurt.wav" type="AudioStream" id=5]
 [ext_resource path="res://Sounds/throw.wav" type="AudioStream" id=6]
 
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 40.0
-height = 48.0
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 33.0478, 63.8125 )
 
 [node name="Joules" type="KinematicBody2D"]
 position = Vector2( 0, -88 )
@@ -55,10 +54,11 @@ stream = ExtResource( 5 )
 stream = ExtResource( 4 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
-position = Vector2( -0.191071, -37.7178 )
+position = Vector2( 4.38199, -37.7178 )
 scale = Vector2( 0.5, 0.5 )
 frames = ExtResource( 1 )
 animation = "idle"
+frame = 1
 playing = true
 
 [node name="FocusTimer" type="Timer" parent="."]

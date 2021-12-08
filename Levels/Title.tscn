@@ -129,6 +129,7 @@ centered = false
 [node name="Sprite2" type="AnimatedSprite" parent="ParallaxBackground2/Far Blocks"]
 position = Vector2( -836, 0 )
 frames = SubResource( 1 )
+frame = 1
 playing = true
 centered = false
 
